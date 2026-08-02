@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seni Rupa Fase D - Ruang Murid Kemendikdasmen</title>
     
     <!-- Font, ikon, dan efek confetti kini dimuat dari file lokal (assets/vendor/)
@@ -108,7 +108,7 @@
             background: var(--bg-glass);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.4);
             padding: 0.75rem 1.5rem;
             display: flex;
             align-items: center;
@@ -130,15 +130,13 @@
             left: 0;
             right: 0;
             z-index: 90;
-            background: var(--bg-glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid var(--border-color);
+            background: transparent;
+            border-top: none;
             padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.03);
+            box-shadow: none;
         }
 
         .btn {
@@ -198,10 +196,11 @@
             display: flex;
         }
         
-        .header-progress-container { flex: 1; max-width: 300px; margin: 0 1rem; }
+        .header-right-group { display: flex; align-items: center; gap: 0.75rem; }
+        .header-progress-container { width: 110px; flex-shrink: 0; }
         .progress-bar-bg { width: 100%; height: 6px; background-color: var(--border-color); border-radius: var(--radius-full); overflow: hidden; margin-top: 4px;}
         .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--primary-blue), var(--accent-orange)); border-radius: var(--radius-full); transition: width 0.6s ease; }
-        .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;}
+        .progress-label { display: flex; justify-content: flex-end; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px;}
 
         /* STYLING KUIS & INTERAKTIF */
         .quiz-option { background: var(--bg-surface); border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 1rem; cursor: pointer; transition: var(--transition-normal); display: flex; align-items: center; gap: 1rem; font-weight: 500; }
@@ -327,17 +326,19 @@
         .g-line-v2 { position: absolute; top: 0; bottom: 0; left: 75%; width: 8px; background: var(--text-main); }
         .g-line-h1 { position: absolute; top: 66.66%; left: 0; right: 0; height: 8px; background: var(--text-main); }
 
-        .breadcrumb { background: var(--bg-surface); padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; }
-        .breadcrumb-item { cursor: pointer; transition: color 0.2s; }
-        .breadcrumb-item:hover { color: var(--primary-blue); text-decoration: underline; }
-        .breadcrumb-current { font-weight: 600; color: var(--primary-blue); }
-
+        /* Indikator halaman bergaya titik-titik (carousel dots) di footer */
+        .page-dots { display: flex; align-items: center; justify-content: center; gap: 7px; }
+        .page-dot { border-radius: 50%; background: var(--text-light); transition: var(--transition-normal); flex-shrink: 0; }
+        .page-dot.size-lg { width: 8px; height: 8px; opacity: 0.9; }
+        .page-dot.size-md { width: 6px; height: 6px; opacity: 0.6; }
+        .page-dot.size-sm { width: 5px; height: 5px; opacity: 0.4; }
+        .page-dot.size-xs { width: 4px; height: 4px; opacity: 0.25; }
+        .page-dot.is-active { width: 10px; height: 10px; background: var(--primary-blue); opacity: 1; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15); }
         /* Mode fullscreen: dipakai khusus untuk halaman Splash supaya benar-benar
-           menutup 100% layar (header & breadcrumb ikut disembunyikan). Class
+           menutup 100% layar (header ikut disembunyikan). Class
            "is-fullscreen-page" ditambahkan/dilepas otomatis oleh Router lewat
            updateUIStatus() setiap kali pindah halaman. */
-        body.is-fullscreen-page .app-header,
-        body.is-fullscreen-page .breadcrumb {
+        body.is-fullscreen-page .app-header {
             display: none !important;
         }
         body.is-fullscreen-page #app-container {
@@ -359,11 +360,10 @@
 
         @media (max-width: 768px) {
             .app-header { padding: 0.75rem 1rem; }
-            .brand-text { display: none; }
-            .header-progress-container { max-width: 160px; }
+            .header-progress-container { width: 80px; }
+            .header-right-group { gap: 0.5rem; }
             .main-content { padding: 1.5rem 1rem; }
             .book-navigation-bar { padding: 0.75rem 1rem; }
-            .btn-text-hide { display: none; }
             .dev-card { flex-direction: column; }
             .dev-card-left { padding: 1rem; border-radius: 12px 12px 0 0; }
         }
@@ -381,37 +381,31 @@
         <header class="app-header">
             <a href="#" class="brand-logo" onclick="Router.navigate('splash'); return false;" style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary-blue); font-weight: 800; font-size: 1.2rem;">
                 <i class="fa-solid fa-graduation-cap" style="color: var(--accent-orange); font-size: 1.5rem;"></i>
-                <span class="brand-text">Eksplorasi<span style="color: var(--accent-orange);">Seni Lukis</span></span>
             </a>
 
-            <div class="header-progress-container">
-                <div class="progress-label">
-                    <span>Progres Modul</span>
-                    <span id="progress-percent">0%</span>
+            <div class="header-right-group">
+                <div class="header-progress-container">
+                    <div class="progress-label">
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
                 </div>
-                <div class="progress-bar-bg">
-                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
-                </div>
-            </div>
 
-            <div class="header-actions" style="display: flex; gap: 0.5rem;">
-                <button class="btn btn-outline btn-icon" id="btn-toggle-sound" title="Matikan Musik Latar" onclick="SoundEngine.toggleMusic()">
-                    <i class="fa-solid fa-volume-high" id="icon-toggle-sound"></i>
-                </button>
-                <button class="btn btn-outline btn-icon" title="Layar Penuh" onclick="UI.toggleFullscreen()">
-                    <i class="fa-solid fa-expand"></i>
-                </button>
-                <button class="btn btn-primary btn-icon" title="Beranda" onclick="Router.navigate('dashboard')">
-                    <i class="fa-solid fa-house"></i>
-                </button>
+                <div class="header-actions" style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline btn-icon" id="btn-toggle-sound" title="Matikan Musik Latar" aria-label="Matikan Musik Latar" onclick="SoundEngine.toggleMusic()">
+                        <i class="fa-solid fa-volume-high" id="icon-toggle-sound"></i>
+                    </button>
+                    <button class="btn btn-outline btn-icon" title="Layar Penuh" aria-label="Layar Penuh" onclick="UI.toggleFullscreen()">
+                        <i class="fa-solid fa-expand"></i>
+                    </button>
+                    <button class="btn btn-primary btn-icon" title="Beranda" aria-label="Beranda" onclick="Router.navigate('dashboard')">
+                        <i class="fa-solid fa-house"></i>
+                    </button>
+                </div>
             </div>
         </header>
-
-        <nav class="breadcrumb" id="breadcrumb-container">
-            <span class="breadcrumb-item" onclick="Router.navigate('dashboard')">Home</span>
-            <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem; color: var(--text-light);"></i>
-            <span class="breadcrumb-current">Selamat Datang</span>
-        </nav>
 
         <main class="main-content" id="main-view-container" style="max-width: 1200px;">
 
@@ -991,7 +985,7 @@
                         <h3 style="color: var(--primary-blue); margin-bottom: 1rem;"><i class="fa-solid fa-images"></i> Galeri Foto Masterpiece</h3>
                         <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer; background: white; padding: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);" onclick="ModalEngine.show('Penangkapan Pangeran Diponegoro', 'image', 'assets/images/diponegoro.jpg', 'Karya Raden Saleh ini adalah mahakarya Realisme Indonesia. Raden Saleh melukiskan ketegangan wajah para pengikut Diponegoro dengan sangat akurat dan nyata.')">
                             <div style="width: 80px; height: 60px; border-radius: 8px; overflow: hidden;">
-                                <img src="assets/images/diponegoro.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="assets/images/diponegoro.jpg" alt="Lukisan Penangkapan Pangeran Diponegoro karya Raden Saleh" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div style="flex: 1;">
                                 <div style="font-weight: 700; color: var(--text-main);">Penangkapan Pangeran Diponegoro</div>
@@ -1060,7 +1054,7 @@
                         <h3 style="color: var(--accent-orange); margin-bottom: 1rem;"><i class="fa-solid fa-images"></i> Galeri Foto Masterpiece</h3>
                         <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer; background: white; padding: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);" onclick="ModalEngine.show('The Scream (Jeritan)', 'image', 'assets/images/the_screem.jpg', 'Karya Edvard Munch. Warna langit yang merah darah dan wajah sosok yang terdistorsi menggambarkan kecemasan dan keputusasaan jiwa modern.')">
                             <div style="width: 80px; height: 60px; border-radius: 8px; overflow: hidden;">
-                                <img src="assets/images/the_screem.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="assets/images/the_screem.jpg" alt="Lukisan The Scream (Jeritan) karya Edvard Munch" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div style="flex: 1;">
                                 <div style="font-weight: 700; color: var(--text-main);">The Scream (Jeritan)</div>
@@ -1120,7 +1114,7 @@
                         <h3 style="color: #10B981; margin-bottom: 1rem;"><i class="fa-solid fa-images"></i> Galeri Foto Masterpiece</h3>
                         <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer; background: white; padding: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);" onclick="ModalEngine.show('Impression, Sunrise', 'image', 'assets/images/sunrise_impresionisme.jpg', 'Karya Claude Monet ini dipamerkan tahun 1874 dan justru dicemooh seorang kritikus sebagai sekadar &quot;kesan&quot; (impression) yang belum selesai. Dari ejekan itulah nama aliran Impresionisme lahir. Lukisan ini menggambarkan pelabuhan Le Havre yang merupakan kampung Claude Monet. Kini, lukisan ini dipajang di Musée Marmottan Monet di Paris. Menurut Monet, judul lukisan ini, Impression, soleil levant, timbul karena gaya melukis subjeknya yang berkabut. Mereka meminta saya memberi judul pada katalog, saya tidak mungkin memberi judul yang berkaitan dengan Le Havre, dan akhirnya saya bilang: (Judulnya Impression). Lebih lanjut, sejarawan seni Paul Smith menyatakan bahwa Monet menamakan lukisan ini Impression agar tidak dituduh bahwa lukisan ini belum selesai atau tidak memiliki detail deskriptif. Di sisi lain, Monet tetap menerima kritik seperti itu meskipun judulnya sudah Impression. ')">
                             <div style="width: 80px; height: 60px; border-radius: 8px; overflow: hidden;">
-                                <img src="assets/images/sunrise_impresionisme.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="assets/images/sunrise_impresionisme.jpg" alt="Lukisan Impression, Sunrise karya Claude Monet" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div style="flex: 1;">
                                 <div style="font-weight: 700; color: var(--text-main);">Impression, Sunrise</div>
@@ -1179,7 +1173,7 @@
                         <h3 style="color: #8B5CF6; margin-bottom: 1rem;"><i class="fa-solid fa-images"></i> Galeri Foto Masterpiece</h3>
                         <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer; background: white; padding: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);" onclick="ModalEngine.show('Portrait of Pablo Picasso', 'image', 'assets/images/lukisan_kubisme.jpg', 'Karya Juan Gris ini melukiskan sahabatnya, Pablo Picasso, dengan wajah dan tubuh dipecah menjadi bidang-bidang geometris — ciri khas Kubisme Analitik. Kubisme adalah sebuah gerakan seni avant-garde abad ke-20 yang dirintis oleh Pablo Picasso dan Georges Braque. Gerakan seni ini membuat revolusi dalam lukisan dan pahatan Eropa, dan menginspirasi gerakan sejenis dalam musik dan sastra. Cabang pertama kubisme, yaitu Kubisme Analitis, adalah gerakan seni radikal dan berpengaruh yang muncul antara 1907 dan 1911 di Prancis. Pada fase kedua, Kubisme Sintetis, gerakan ini menyebar dan masih ada sampai sekitar tahun 1919, ketika gerakan Surealisme mulai dikenal masyarakat. Kubisme telah dianggap sebagai gerakan seni paling berpengaruh di abad ke-20.')">
                             <div style="width: 80px; height: 60px; border-radius: 8px; overflow: hidden;">
-                                <img src="assets/images/lukisan_kubisme.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="assets/images/lukisan_kubisme.jpg" alt="Lukisan Portrait of Pablo Picasso karya Juan Gris" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div style="flex: 1;">
                                 <div style="font-weight: 700; color: var(--text-main);">Portrait of Pablo Picasso</div>
@@ -1238,7 +1232,7 @@
                         <h3 style="color: #CA8A04; margin-bottom: 1rem;"><i class="fa-solid fa-images"></i> Galeri Foto Masterpiece</h3>
                         <div style="display: flex; align-items: center; gap: 1rem; cursor: pointer; background: white; padding: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);" onclick="ModalEngine.show('Composition VIII', 'image', 'assets/images/lukisan_abstrak.jpg', 'Karya Wassily Kandinsky ini tersusun dari garis, lingkaran, dan bidang warna tanpa menggambarkan objek nyata apa pun — Kandinsky menyusunnya layaknya komposisi musik. Seni abstrak atau seni tanwujud adalah salah satu jenis kesenian kontemporer yang tidak menggambarkan objek dalam dunia asli, tetapi menggunakan warna dan bentuk dalam cara non-representasional. Pada awal abad ke-20, istilah ini lebih digunakan untuk mendeskripsikan seni seperi kubisme, ekspresionisme abstrak, suprematisme, De Stijl, dan seni futuristik.')">
                             <div style="width: 80px; height: 60px; border-radius: 8px; overflow: hidden;">
-                                <img src="assets/images/lukisan_abstrak.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="assets/images/lukisan_abstrak.jpg" alt="Lukisan Composition VIII karya Wassily Kandinsky" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div style="flex: 1;">
                                 <div style="font-weight: 700; color: var(--text-main);">Composition VIII</div>
@@ -1694,18 +1688,16 @@
         </main>
 
         <footer class="book-navigation-bar">
-            <button class="btn btn-outline" id="btn-nav-prev" onclick="Router.prevPage()">
-                <i class="fa-solid fa-arrow-left"></i> <span class="btn-text-hide">Sebelumnya</span>
+            <button class="btn btn-outline btn-icon" id="btn-nav-prev" onclick="Router.prevPage()" title="Sebelumnya" aria-label="Halaman Sebelumnya">
+                <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <div style="text-align: center; flex: 1;">
-                <span style="font-size: 0.9rem; font-weight: 600; color: var(--text-muted);" id="book-nav-page-indicator">
-                    Halaman - / -
-                </span>
+            <div style="text-align: center; flex: 1; display: flex; justify-content: center;">
+                <div class="page-dots" id="book-nav-page-indicator" role="img" aria-label="Halaman - dari -"></div>
             </div>
 
-            <button class="btn btn-primary" id="btn-nav-next" onclick="Router.nextPage()">
-                <span class="btn-text-hide">Selanjutnya</span> <i class="fa-solid fa-arrow-right"></i>
+            <button class="btn btn-primary btn-icon" id="btn-nav-next" onclick="Router.nextPage()" title="Selanjutnya" aria-label="Halaman Selanjutnya">
+                <i class="fa-solid fa-arrow-right"></i>
             </button>
         </footer>
 
@@ -1714,7 +1706,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 style="margin: 0; font-size: 1.2rem; font-family: 'Inter', sans-serif;" id="modal-title">Judul</h3>
-                    <button class="btn-close-modal" onclick="ModalEngine.hide()"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="btn-close-modal" onclick="ModalEngine.hide()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button>
                 </div>
                 <div class="modal-body" id="modal-body-content">
                     <!-- Konten dinamis (Gambar/Video) akan masuk ke sini via JS -->
@@ -1863,10 +1855,12 @@
                 if (this.musicMuted) {
                     icon.className = 'fa-solid fa-volume-xmark';
                     btn.title = 'Nyalakan Musik Latar';
+                    btn.setAttribute('aria-label', 'Nyalakan Musik Latar');
                     btn.classList.add('is-muted');
                 } else {
                     icon.className = 'fa-solid fa-volume-high';
                     btn.title = 'Matikan Musik Latar';
+                    btn.setAttribute('aria-label', 'Matikan Musik Latar');
                     btn.classList.remove('is-muted');
                 }
             },
@@ -2002,7 +1996,7 @@
             
             let htmlContent = '';
             if(type === 'image') {
-                htmlContent = `<img src="${mediaUrl}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; max-height: 400px;">`;
+                htmlContent = `<img src="${mediaUrl}" alt="${title}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; max-height: 400px;">`;
             } else if (type === 'video') {
                 htmlContent = `<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 1rem; border-radius: 8px;">
                                 <iframe src="${mediaUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen></iframe>
@@ -2294,6 +2288,36 @@
                 }
             },
 
+            renderPageDots(idx, total) {
+                const container = document.getElementById('book-nav-page-indicator');
+                if (!container) return;
+                container.setAttribute('aria-label', `Halaman ${idx + 1} dari ${total}`);
+                container.innerHTML = '';
+
+                // Batasi jumlah titik yang tampil sekaligus supaya tidak penuh
+                // saat total halaman banyak (mis. 26 halaman). Titik yang jauh
+                // dari halaman aktif akan mengecil, menandakan masih ada halaman
+                // lain di luar jendela yang tampil (mirip carousel di aplikasi mobile).
+                const maxVisible = 7;
+                let start = 0;
+                let end = total - 1;
+                if (total > maxVisible) {
+                    start = Math.max(0, Math.min(idx - Math.floor(maxVisible / 2), total - maxVisible));
+                    end = start + maxVisible - 1;
+                }
+
+                for (let i = start; i <= end; i++) {
+                    const dot = document.createElement('span');
+                    const distance = Math.abs(i - idx);
+                    let sizeClass = 'size-lg';
+                    if (distance === 1) sizeClass = 'size-md';
+                    else if (distance === 2) sizeClass = 'size-sm';
+                    else if (distance >= 3) sizeClass = 'size-xs';
+                    dot.className = 'page-dot ' + sizeClass + (i === idx ? ' is-active' : '');
+                    container.appendChild(dot);
+                }
+            },
+
             updateUIStatus() {
                 const idx = AppData.materiOrder.indexOf(this.currentPage);
                 const total = AppData.materiOrder.length;
@@ -2302,7 +2326,7 @@
                 // Hanya update progress bar jika halaman ada di materiOrder
                 if(idx > -1) {
                     UI.updateProgress(idx, total);
-                    document.getElementById('book-nav-page-indicator').innerText = `Halaman ${idx + 1} dari ${total}`;
+                    this.renderPageDots(idx, total);
                     
                     const btnPrev = document.getElementById('btn-nav-prev');
                     const btnNext = document.getElementById('btn-nav-next');
@@ -2321,12 +2345,9 @@
                     navBar.style.setProperty('display', 'flex', 'important');
                 }
 
-                // Mode fullscreen (khusus halaman Splash): sembunyikan header & breadcrumb
+                // Mode fullscreen (khusus halaman Splash): sembunyikan header
                 // supaya gambar cover menutupi 100% layar, cocok untuk Panel Interaktif Digital.
                 document.body.classList.toggle('is-fullscreen-page', !!(meta && meta.fullScreen));
-
-                const bcCurrent = document.querySelector('.breadcrumb-current');
-                if(bcCurrent) bcCurrent.innerText = meta ? meta.title : this.currentPage.toUpperCase();
             }
         };
 
